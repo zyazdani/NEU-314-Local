@@ -12,9 +12,8 @@ function fun(string)
     R = image1[:, :, 1]
     G = image1[:, :, 2]
     B = image1[:,:, 3]
-
+    println("Reset with git reset --mixed").
     return(R,G,B)
-
 end
 image2 = zeros(360,640,3)
 image2[:,:, 1] = image[:,:,2]
