@@ -5,7 +5,6 @@ using PyPlot
 image = imread("el-capitan.png")
 imshow(image)
 size(image)
-println("h")
 function fun(string)
     image1 = imread(string)
     imshow(image1)
@@ -19,12 +18,15 @@ image2 = zeros(360,640,3)
 image2[:,:, 1] = image[:,:,2]
 image2[:,:, 2] = image[:,:,1]
 image2[:,:, 3] = image[:,:,3]
+figure(figsize=[50,50])
 subplot(1,2,1)
 imshow(image)
+axis("off")
+title("Original picture")
 subplot(1,2,2)
+axis("off")
 imshow(image2)
 
-title("Color inversion")
-axis("off")
+
 
 circshift(a)
