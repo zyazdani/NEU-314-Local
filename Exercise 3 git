@@ -1,7 +1,13 @@
 #Zach Yazdani
-
+#Exercise 3
+#10/2/19
 using PyPlot
-
+"""
+Here’s an image. Use  imread() to load it into Julia and imshow() to display it in a figure.
+You’ll see that it’s a color image with 360 rows by 640 columns of pixels.
+Since it is in color, each pixel doesn’t not only has a luminance values, but a red (R), green (G), and blue (B) value as well. Each pixel also has a fourth value (alpha) that we’re not going to use here. Therefore, this image is actually a set of four 360x640 matrices. Use size() to see that the image is 360x640x4, in other words, it is a set of memory slots arranged as a rectangular prism. The first 360x640 matrix (corresponding to indices [:,:,1]) is the R channel; then G; then B; and then alpha (which we will ignore).
+The figure below might be able to help you visualize this:
+"""
 image = imread("el-capitan.png")
 imshow(image)
 size(image)
@@ -26,7 +32,12 @@ title("Original picture")
 subplot(1,2,2)
 axis("off")
 imshow(image2)
+#Already a function written for this in julia
+#B
 
-
-
-circshift(a)
+function circ_shift(im, pixels)
+    image = imread(im)
+    image[:,:,1] = circshift(image[:,:,1], pixels)
+    imshow(image)
+end
+circ_shift("el-capitan.png",-1)
