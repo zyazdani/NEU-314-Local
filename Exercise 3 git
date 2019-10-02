@@ -1,0 +1,32 @@
+#Zach Yazdani
+
+using PyPlot
+
+image = imread("el-capitan.png")
+imshow(image)
+size(image)
+println("h")
+function fun(string)
+    image1 = imread(string)
+    imshow(image1)
+    R = image1[:, :, 1]
+    G = image1[:, :, 2]
+    B = image1[:,:, 3]
+    println("Bug Bug Bug ")
+    println("Reset with git reset --mixed")
+    return(R,G,B)
+
+end
+image2 = zeros(360,640,3)
+image2[:,:, 1] = image[:,:,2]
+image2[:,:, 2] = image[:,:,1]
+image2[:,:, 3] = image[:,:,3]
+subplot(1,2,1)
+imshow(image)
+subplot(1,2,2)
+imshow(image2)
+
+title("Color inversion")
+axis("off")
+
+circshift(a)
