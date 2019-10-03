@@ -5,39 +5,112 @@ using PyPlot
 """
 Here’s an image. Use  imread() to load it into Julia and imshow() to display it in a figure.
 You’ll see that it’s a color image with 360 rows by 640 columns of pixels.
-Since it is in color, each pixel doesn’t not only has a luminance values, but a red (R), green (G), and blue (B) value as well. Each pixel also has a fourth value (alpha) that we’re not going to use here. Therefore, this image is actually a set of four 360x640 matrices. Use size() to see that the image is 360x640x4, in other words, it is a set of memory slots arranged as a rectangular prism. The first 360x640 matrix (corresponding to indices [:,:,1]) is the R channel; then G; then B; and then alpha (which we will ignore).
+Since it is in color, each pixel doesn’t not only has a luminance values, but a red (R), green (G), and blue (B) value as well.
+Each pixel also has a fourth value (alpha) that we’re not going to use here.
+Therefore, this image is actually a set of four 360x640 matrices.
+Use size() to see that the image is 360x640x4, in other words, it is a set of memory slots arranged as a rectangular prism.
+The first 360x640 matrix (corresponding to indices [:,:,1]) is the R channel; then G; then B; and then alpha (which we will ignore).
 The figure below might be able to help you visualize this:
 """
 image = imread("el-capitan.png")
 imshow(image)
 size(image)
-function fun(string)
+"""
+Output
+(360, 640, 4)
+Shows the image of el capitan in a seperate window
+"""
+"""
+Write a function that takes as input a string representing the filename,
+     and then loads the image file, displays it, and extracts the red, blue,
+     and green channels into separate variables, and returns the content of those variables.
+     In other words, your function should take an image name as an argument and have three outputs, that in the case of our example image would each be a 360x640 matrix.
+     Commit and push your file to the repository you just set up.
+"""
+"""
+ReturnRGB -- Returns RGB
+Reads in an image, shows it and returns Red, Green, and Blue matrices.
+Has a print line to indicate that this was a function that underwent a git reset
+
+Args:
+   arg1 (string): any image that is then read in using imread()
+
+
+Returns:
+   imshow(arg1): Shows whatever image was put in
+   out 360x640Array{Float32,2}: R image matrix
+   out 360x640Array{Float32,2}: G image matrix
+   out 360x640Array{Float32,2}: B image matrix
+"""
+
+function ReturnRGB(string)
     image1 = imread(string)
     imshow(image1)
     R = image1[:, :, 1]
     G = image1[:, :, 2]
     B = image1[:,:, 3]
-    println("Reset with git reset --mixed").
+    println("Reset with git reset --mixed")
     return(R,G,B)
 end
+"""Output
+Reset with git reset --mixed
+(Float32[0.796078 0.796078 … 0.533333 0.52549; 0.803922 0.803922 … 0.541176 0.533333; … ; 0.0980392 0.0901961 … 0.0156863 0.00784314; 0.0509804 0.0627451 … 0.0196078 0.0313726], Float32[0.54902 0.54902 … 0.568627 0.560784; 0.552941 0.556863 … 0.576471 0.568627; … ; 0.14902 0.145098 … 0.0156863 0.00784314; 0.113725 0.12549 … 0.0196078 0.0313726], Float32[0.380392 0.380392 … 0.690196 0.682353; 0.388235 0.388235 … 0.698039 0.690196; … ; 0.109804 0.105882 … 0.0235294 0.0156863; 0.0705882 0.0823529 … 0.027451 0.0392157])
+"""
+
+"""
+Make a new 360x640x3 matrix; let’s call this image2. Set image2[:,:,1] to be the G channel from the original image,
+image2[:,:,2] to be the B channel from the original image, and image2[:,:,3] to be the R channel from the original image.
+Use imshow() to display the original image and image2 side by side (hint: use subplot(1,2,1) to first make a left-hand axis and work with that;
+and then subplot(1,2,2) to make a right-hand axis, and work with that). The commands figure(figsize=[x,y]), title("your text goes here"), and axis("off")
+can be used to initialize a figure specified by x and y (width and height in inches),
+add a title, and turn off the axis, respectively, for aesthetics. Commit and push both the code and image to your repo.
+"""
+#Creates a matrix of specified dimensions filled with zeroes
 image2 = zeros(360,640,3)
 image2[:,:, 1] = image[:,:,2]
-image2[:,:, 2] = image[:,:,1]
-image2[:,:, 3] = image[:,:,3]
-figure(figsize=[50,50])
+image2[:,:, 2] = image[:,:,3]
+image2[:,:, 3] = image[:,:,1]
+#Specifies the size of the figure
+figure(figsize=[10,10])
+#Creates a subplot on the left
 subplot(1,2,1)
-imshow(image)
-axis("off")
-title("Original picture")
-subplot(1,2,2)
-axis("off")
+#Shows image 2 on the left plot
 imshow(image2)
+#turns the axis off for this plot
+axis("off")
+#Titles this plot
+title("Color inverted")
+#Creates a subplot on the right
+subplot(1,2,2)
+#Turns the axis off for the plot on the right
+axis("off")
+#Shows an image in the plot on the right
+imshow(image)
 #Already a function written for this in julia
 #B
+"""
+A “circular” rotation of elements in a matrix moves the contents of the matrix such that elements that “fall off” one edge “circle back”
+to the opposite edge.
+Write a function that, for given an image, circularly moves only one channel, the red channel (remember, this is the first one) up some number of pixels, p, such that the top p rows now become the bottom p rows.
+Your function should take two arguments -- 1) your image and 2) the number of pixels you want to shift it by -- and return the shifted image.
+Display both the original image channel and the result of circularly moving the red channel up by 180 pixels.
+"""
+"""
+circ-shift -- Shifts the R matrix.
+Shows an image after shifting the R matrix a given number of slots.
+Args:
+   arg1 (string): image
+   arg2 (int): The number of pixels you want to shift R (- is up, + is down)
 
+Returns:
+   out: Shows the shifted image
+"""
 function circ_shift(im, pixels)
     image = imread(im)
     image[:,:,1] = circshift(image[:,:,1], pixels)
     imshow(image)
 end
-circ_shift("el-capitan.png",-1)
+#Original image
+circ_shift("el-capitan.png",0)
+#Shifted 180 pixels
+circ_shift("el-capitan.png",-180)
